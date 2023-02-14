@@ -1,0 +1,40 @@
+body {
+    min-height: 100vh;
+}
+
+header {
+    min-height: 8vh;
+}
+
+/* main {
+    min-height: 64vh;
+} */
+
+.page-title, footer {
+    background-color: #d90368;
+}
+
+.nav-link {
+    font-weight: bold;
+    color: #c3025d;
+}
+
+.form-control {
+    border-radius: 20px;
+}
+
+fieldset {
+    display: inline;
+    padding: 1rem;
+}
+
+table {
+    border: 2px solid black;
+}
+
+td {
+    border-collapse: collapse;
+    border: 1px solid black;
+    height: 1.25rem;
+    padding: .25rem;
+}
