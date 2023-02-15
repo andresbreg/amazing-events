@@ -1,5 +1,7 @@
 body {
-    min-height: 100vh;
+display: flex;
+flex-direction: column;
+min-height: 100vh;
 }
 
 main {
@@ -7,10 +9,8 @@ main {
 }
 
 footer {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
     max-height: 52px;
+    margin-top: auto;
 }
 
 .page-title, footer {
@@ -31,12 +31,12 @@ footer {
     object-fit: cover;
 }
 
-.details-btn, .details-btn:active, .submit-btn, .submit-btn:active {
+.details-btn, .submit-btn {
     border: 1px solid #c3025d;
     color: #c3025d;
 }
 
-.details-btn:hover {
+.details-btn:hover, .details-btn:active {
     background-color: #ad0253;
     color: white;
 }
@@ -68,7 +68,7 @@ fieldset {
     font-weight: 500;
 }
 
-.submit-btn:hover {
+.submit-btn:hover, .submit-btn:active {
     background-color: #c3025d;
     color: white;
 }
@@ -82,4 +82,58 @@ td {
     border: 1px solid black;
     height: 1.25rem;
     padding: .25rem;
+}
+
+/* Responsive Styles */
+
+@media (max-width: 768px) {
+    .navbar {
+        display: flex;
+        justify-content: center;
+    }
+    .form-fieldset, .submit-btn {
+        width: 520px;
+    }
+}
+
+@media (max-width: 576px) {
+    .form-fieldset, .submit-btn {
+        width: 440px;
+    }
+    table {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    .form-fieldset, .submit-btn {
+        width: 400px;
+    }
+    table {
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 440px) {
+    .form-fieldset, .submit-btn {
+        width: 360px;
+    }
+    table {
+        font-size: 10px;
+    }
+}
+
+@media (max-width: 400px) {
+    .form-fieldset, .submit-btn {
+        width: 320px;
+    }
+    table {
+        font-size: 9px;
+    }
+}
+
+@media (max-width: 320px) {
+    .form-fieldset, .submit-btn {
+        width: 280px;
+    }
 }
