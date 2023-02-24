@@ -22,7 +22,7 @@ var data = {
         "category":"Food Fair",
         "place":"Room A",
         "capacity":45000,
-        "assistance":42756,
+        "estimate":42756,
         "price":10
       },
       {
@@ -80,8 +80,8 @@ var data = {
         "date":"2022-01-22",
         "description":"The only concert of the most emblematic band in the world.",
         "category":"Music Concert",
-        "place":"Room A"
-        ,"capacity":138000,
+        "place":"Room A",
+        "capacity":138000,
         "estimate":138000,
         "price":150
       },
@@ -118,7 +118,7 @@ var data = {
         "category":"Race",
         "place":"New York",
         "capacity":3000000,
-        "assistance":2569800,
+        "estimate":2569800,
         "price":3
         },
       {
@@ -174,3 +174,29 @@ var data = {
 
 let currentDate = data.currentDate;
 let allEvents = Object.values(data.events);
+
+const cardContainer = document.querySelector('#card-container');
+
+let dynamicCards = createCard(allEvents);
+
+cardContainer.innerHTML = dynamicCards;
+
+function createCard() {
+  let card = '';
+  for (let i=0; i < allEvents.length ; i++) {
+    card += `<div class="card col-10 col-sm-5 col-xl-3">
+                <img src="${allEvents[i].image}" alt="Event cover">
+                <div class="card-body d-flex flex-column justify-content-between">
+                  <p>${allEvents[i].category}</p>
+                  <h5 class="card-title">${allEvents[i].name}</h5>
+                  <p class="card-text">${allEvents[i].description}</p>
+                  <div class="d-flex justify-content-between">
+                    <p>${allEvents[i].date}</p>
+                    <p>$${allEvents[i].price}</p>
+                  </div>
+                  <a href="details.html" class="btn details-btn">Details</a>
+                </div>
+              </div>`
+  }
+  return card;
+}
