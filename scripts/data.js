@@ -185,13 +185,13 @@ function createCard() {
   let card = '';
   for (let i=0; i < allEvents.length ; i++) {
     card += `<div class="card col-10 col-sm-5 col-xl-3">
-                <img src="${allEvents[i].image}" alt="Event cover">
+                <img src="${allEvents[i].image}" alt="Event cover" class="card-image">
                 <div class="card-body d-flex flex-column justify-content-between">
-                  <p>${allEvents[i].category}</p>
+                  <p class="fw-semibold">${allEvents[i].category}</p>
                   <h5 class="card-title">${allEvents[i].name}</h5>
                   <p class="card-text">${allEvents[i].description}</p>
                   <div class="d-flex justify-content-between">
-                    <p>${allEvents[i].date}</p>
+                    <p class="fst-italic">${allEvents[i].date}</p>
                     <p>$${allEvents[i].price}</p>
                   </div>
                   <a href="details.html" class="btn details-btn">Details</a>

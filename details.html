@@ -11,27 +11,34 @@
 </head>
 <body class="d-flex flex-column">
   <header>
-    <nav class="navbar p-3 px-md-5">
+    <nav class="navbar navbar-expand-md p-3 px-md-5">
       <a class="navbar-brand" href="#">
         <img src="./assets/Logo_Amazing_Events.png" alt="Amazing Events Logo" width="120">
-      </a>
-      <ul class="nav justify-content-center justify-content-md-end">
-        <li class="nav-item">
-          <a class="nav-link" href="index.html">Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="upcoming-events.html">Upcoming Events</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="past-events.html">Past Events</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="contact.html">Contact</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="stats.html">Stats</a>
-        </li>
-      </ul>      
+      </a>    
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#options">
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
+          <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
+        </svg>
+      </button>
+      <div id="options" class="collapse navbar-collapse">
+        <ul class="nav justify-content-center justify-content-md-end">
+          <li class="nav-item">
+            <a class="nav-link" href="index.html">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="upcoming-events.html">Upcoming Events</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="past-events.html">Past Events</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="contact.html">Contact</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="stats.html">Stats</a>
+          </li>
+        </ul>
+      </div>
     </nav>
   </header>
   <main class="d-flex flex-column justify-content-evenly align-items-center">        
