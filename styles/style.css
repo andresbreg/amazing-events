@@ -109,7 +109,7 @@ td {
 }
 
 @media (max-width: 576px) {
-    ul {
+    nav ul {
         flex-direction: column;
         align-items: center;
     }
