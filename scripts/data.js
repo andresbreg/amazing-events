@@ -172,23 +172,39 @@ var data = {
   ]
 };
 
+const filterContainer = document.getElementById('filter-container');
+const cardContainer = document.getElementById('card-container');
+
 let currentDate = data.currentDate;
 let allEvents = Object.values(data.events);
-
-const cardContainer = document.getElementById('card-container');
+let categories = [];
 
 allEvents.forEach((event) => {cardContainer.innerHTML +=
   `<div class="card col-10 col-sm-5 col-xl-3">
-    <img src="${event.image}" alt="Event cover" class="card-image">
-    <div class="card-body d-flex flex-column justify-content-between">
-      <p class="fw-semibold">${event.category}</p>
-      <h5 class="card-title">${event.name}</h5>
-      <p class="card-text">${event.description}</p>
-      <div class="d-flex justify-content-between">
-        <p class="fst-italic">${event.date}</p>
-        <p>$${event.price}</p>
-      </div>
-      <a href="details.html" class="btn details-btn">Details</a>
-    </div>
+  <img src="${event.image}" alt="Event cover" class="card-image">
+  <div class="card-body d-flex flex-column justify-content-between">
+  <p class="fw-semibold">${event.category}</p>
+  <h5 class="card-title">${event.name}</h5>
+  <p class="card-text">${event.description}</p>
+  <div class="d-flex justify-content-between">
+  <p class="fst-italic">${event.date}</p>
+  <p>$${event.price}</p>
+  </div>
+  <a href="details.html" class="btn details-btn">Details</a>
+  </div>
   </div>`
-});
+})
+
+for (const event of allEvents) {
+  if (categories.indexOf(event.category) == -1) {
+      categories.push(event.category)
+  }
+}
+
+categories.sort();
+categories.forEach((category) => {filterContainer.innerHTML +=
+  `<fieldset class="px-2">
+  <input class="form-check-input" type="checkbox" value="" id="${category}">
+  <label class="form-check-label px-1" for="${category}">${category}</label>
+  </fieldset>`
+})

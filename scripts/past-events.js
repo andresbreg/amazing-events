@@ -1,6 +1,8 @@
+const pastEventsFilterContainer = document.getElementById('past-events-filter-container');
 const pastEventCardContainer = document.getElementById('past-event-card-container');
 
 let pastEvents = allEvents.filter(event => event.date < currentDate);
+let pastEventsCategories = [];
 
 pastEvents.sort((x,y) => x.date.localeCompare(y.date));
 pastEvents.reverse();
@@ -19,3 +21,17 @@ pastEvents.forEach((event) => {pastEventCardContainer.innerHTML +=
     </div>
   </div>`
 });
+
+for (const event of pastEvents) {
+  if (pastEventsCategories.indexOf(event.category) == -1) {
+      pastEventsCategories.push(event.category)
+  }
+}
+
+pastEventsCategories.sort();
+pastEventsCategories.forEach((category) => {pastEventsFilterContainer.innerHTML +=
+  `<fieldset class="px-2">
+  <input class="form-check-input" type="checkbox" value="" id="${category}">
+  <label class="form-check-label px-1" for="${category}">${category}</label>
+  </fieldset>`
+})

@@ -64,42 +64,19 @@
 
     <!-- Filters & Search Bar -->
 
-    <div class="container-md p-2 d-lg-flex align-items-center">          
-      <div class="d-flex flex-wrap justify-content-center gap-3 col-md-12 col-lg-9 col-xl-8 py-2">
-        <fieldset class="px-2">
-          <input class="form-check-input" type="checkbox" value="" id="cinema">
-          <label class="form-check-label px-1" for="cinema">Cinema</label>
-        </fieldset>
-        <fieldset class="px-2">
-          <input class="form-check-input" type="checkbox" value="" id="costume-party">
-          <label class="form-check-label px-1" for="costume-party">Costume Party</label>
-        </fieldset>
-        <fieldset class="px-2">
-          <input class="form-check-input" type="checkbox" value="" id="food-fair">
-          <label class="form-check-label px-1" for="food-fair">Food Fair</label>
-        </fieldset>
-        <fieldset class="px-2">
-          <input class="form-check-input" type="checkbox" value="" id="museum">
-          <label class="form-check-label px-1" for="museum">Museum</label>
-        </fieldset>
-        <fieldset class="px-2">
-          <input class="form-check-input" type="checkbox" value="" id="music-concert">
-          <label class="form-check-label px-1" for="music-concert">Music Concert</label>
-        </fieldset>            
-      </div>
-      <div class="col-md-12 col-lg-3 col-xl-4 d-flex align-items-center justify-content-center py-2 px-4 px-lg-0">
-        <input class="form-control" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn" type="submit">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
-          </svg>
-        </button>          
-      </div>        
-    </div>
+    <div id="upcoming-events-filter-container" class="py-2"></div>    
+    <div class="col-md-12 col-lg-3 col-xl-4 d-flex align-items-center justify-content-center py-2 px-4 px-lg-0">
+      <input class="form-control" type="search" placeholder="Search" aria-label="Search">
+      <button class="btn" type="submit">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+          <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+        </svg>
+      </button>          
+    </div>        
     
     <!-- Dynamic Cards -->
 
-    <div id="upcoming-event-card-container" class="container-xl d-flex flex-wrap justify-content-center gap-3 m-2">
+    <div id="upcoming-events-card-container" class="container-xl d-flex flex-wrap justify-content-center gap-3 m-2">
     </div>
   </main>
 
