@@ -170,30 +170,40 @@ var data = {
       "price":250
     }
   ]
-};
+}
 
 const filterContainer = document.getElementById('filter-container');
+const searchBar = document.getElementById('search-bar');
 const cardContainer = document.getElementById('card-container');
 
 let currentDate = data.currentDate;
 let allEvents = Object.values(data.events);
 let categories = [];
 
-allEvents.forEach((event) => {cardContainer.innerHTML +=
-  `<div class="card col-10 col-sm-5 col-xl-3">
-  <img src="${event.image}" alt="Event cover" class="card-image">
-  <div class="card-body d-flex flex-column justify-content-between">
-  <p class="fw-semibold">${event.category}</p>
-  <h5 class="card-title">${event.name}</h5>
-  <p class="card-text">${event.description}</p>
-  <div class="d-flex justify-content-between">
-  <p class="fst-italic">${event.date}</p>
-  <p>$${event.price}</p>
-  </div>
-  <a href="details.html" class="btn details-btn">Details</a>
-  </div>
-  </div>`
-})
+// Dynamic Cards
+
+function createCard(eventArray) {
+  cardContainer.innerHTML = '';
+  eventArray.forEach((event) => {cardContainer.innerHTML +=
+    `<div class="card col-10 col-sm-5 col-xl-3">
+      <img src="${event.image}" alt="Event cover" class="card-image">
+      <div class="card-body d-flex flex-column justify-content-between">
+        <p class="fw-semibold">${event.category}</p>
+        <h5 class="card-title">${event.name}</h5>
+        <p class="card-text">${event.description}</p>
+        <div class="d-flex justify-content-between">
+          <p class="fst-italic">${event.date}</p>
+          <p>$${event.price}</p>
+        </div>
+        <a href="details.html" class="btn details-btn">Details</a>
+      </div>
+    </div>`
+  });  
+}
+
+createCard(allEvents);
+
+// Categories
 
 for (const event of allEvents) {
   if (categories.indexOf(event.category) == -1) {
@@ -204,7 +214,18 @@ for (const event of allEvents) {
 categories.sort();
 categories.forEach((category) => {filterContainer.innerHTML +=
   `<fieldset class="px-2">
-  <input class="form-check-input" type="checkbox" value="" id="${category}">
-  <label class="form-check-label px-1" for="${category}">${category}</label>
+    <input class="form-check-input" type="checkbox" value="${category}" id="${category}">
+    <label class="form-check-label px-1" for="${category}">${category}</label>
   </fieldset>`
-})
+});
+
+// Search Bar
+
+searchBar.addEventListener('change', () => {
+  const searchResult = allEvents.filter((event) =>
+   event.name.toLowerCase().includes(searchBar.value.toLowerCase()) ||
+   event.description.toLowerCase().includes(searchBar.value.toLowerCase()))
+  createCard(searchResult);
+  if (searchResult.length == 0) cardContainer.innerHTML =
+    `<p class="no-results-message">There are no results that match your search</p>`;
+});

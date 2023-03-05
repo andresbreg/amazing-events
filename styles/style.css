@@ -97,6 +97,12 @@ td {
     padding: .25rem;
 }
 
+.no-results-message {
+    font-size: 18px;
+    font-weight: 500;
+    color: rgb(100, 100, 100);
+}
+
 /* Responsive Styles */
 
 @media (max-width: 768px) {
