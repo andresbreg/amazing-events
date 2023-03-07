@@ -6,6 +6,7 @@ const pastEventsCardContainer = document.getElementById('past-events-card-contai
 let pastEvents = allEvents.filter(event => event.date < currentDate);
 let pastEventsCategories = [];
 let pastEventsCheckboxFilter = [];
+let pastEventsFilterResult = [];
 
 // Dynamic Cards
 
@@ -36,9 +37,7 @@ createPastEventCard(pastEvents);
 // Categories
 
 for (const event of pastEvents) {
-  if (pastEventsCategories.indexOf(event.category) == -1) {
-      pastEventsCategories.push(event.category)
-  }
+  if (pastEventsCategories.indexOf(event.category) == -1) pastEventsCategories.push(event.category);
 }
 
 pastEventsCategories.sort();
@@ -47,12 +46,13 @@ pastEventsCategories.forEach((category) => {pastEventsFilterContainer.innerHTML 
   <input class="form-check-input past-events-check-input" type="checkbox" value="" id="${category}">
   <label class="form-check-label px-1" for="${category}">${category}</label>
   </fieldset>`
-})
+});
 
 // Checkbox Filter
 
 for (const checkbox of pastEventsCheckboxes) {
   checkbox.addEventListener('change', () => {
+    if (pastEventsSearchBar.value != '') pastEventsSearchBar.value = '';
     if (checkbox.checked) pastEventsCheckboxFilter.push(checkbox.id);
     else pastEventsCheckboxFilter = pastEventsCheckboxFilter.filter((category) => category !== checkbox.id);
     const pastEventsFilterResult = pastEvents.filter((event) => pastEventsCheckboxFilter.includes(event.category));
@@ -63,11 +63,16 @@ for (const checkbox of pastEventsCheckboxes) {
 
 // Search Bar
 
-pastEventsSearchBar.addEventListener('change', () => {
-  const pastEventsSearchResult = pastEvents.filter((event) =>
+function pastEventsSearch(eventArray) {
+  const pastEventsSearchResult = eventArray.filter((event) =>
    event.name.toLowerCase().includes(pastEventsSearchBar.value.toLowerCase()) ||
-   event.description.toLowerCase().includes(pastEventsSearchBar.value.toLowerCase()))
+   event.description.toLowerCase().includes(pastEventsSearchBar.value.toLowerCase()));
   createPastEventCard(pastEventsSearchResult);
   if (pastEventsSearchResult.length == 0) pastEventsCardContainer.innerHTML =
-    `<p class="no-results-message">There are no results that match your search</p>`;
+    `<p class="no-results-message">There are no results that match your search</p>`
+}
+
+pastEventsSearchBar.addEventListener('change', () => {
+  if (pastEventsFilterResult.length == 0) pastEventsSearch(pastEvents);
+  else pastEventsSearch(pastEventsFilterResult);
 });

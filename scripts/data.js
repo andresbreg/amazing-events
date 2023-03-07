@@ -181,6 +181,7 @@ let currentDate = data.currentDate;
 let allEvents = Object.values(data.events);
 let categories = [];
 let checkboxFilter = [];
+let filterResult = [];
 
 // Dynamic Cards
 
@@ -200,7 +201,7 @@ function createCard(eventArray) {
         <a href="details.html" class="btn details-btn">Details</a>
       </div>
     </div>`
-  });  
+  });
 }
 
 createCard(allEvents);
@@ -223,9 +224,10 @@ categories.forEach((category) => {filterContainer.innerHTML +=
 
 for (const checkbox of checkboxes) {
   checkbox.addEventListener('change', () => {
+    if (searchBar.value != '') searchBar.value = '';
     if (checkbox.checked) checkboxFilter.push(checkbox.id);
     else checkboxFilter = checkboxFilter.filter((category) => category !== checkbox.id);
-    const filterResult = allEvents.filter((event) => checkboxFilter.includes(event.category));
+    filterResult = allEvents.filter((event) => checkboxFilter.includes(event.category));
     if (filterResult.length != 0) createCard(filterResult);
     else createCard(allEvents);
   });
@@ -233,11 +235,16 @@ for (const checkbox of checkboxes) {
 
 // Search Bar
 
-searchBar.addEventListener('change', () => {
-  const searchResult = allEvents.filter((event) =>
-   event.name.toLowerCase().includes(searchBar.value.toLowerCase()) ||
-   event.description.toLowerCase().includes(searchBar.value.toLowerCase()));
+function search(eventArray) {  
+  const searchResult = eventArray.filter((event) =>
+    event.name.toLowerCase().includes(searchBar.value.toLowerCase()) || 
+    event.description.toLowerCase().includes(searchBar.value.toLowerCase()));
   createCard(searchResult);
   if (searchResult.length == 0) cardContainer.innerHTML =
-    `<p class="no-results-message">There are no results that match your search</p>`;
+    `<p class="no-results-message">There are no results that match your search</p>`
+}
+
+searchBar.addEventListener('change', () => {
+  if (filterResult.length == 0) search(allEvents);
+  else search(filterResult);
 });

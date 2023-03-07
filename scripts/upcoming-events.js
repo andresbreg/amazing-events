@@ -6,6 +6,7 @@ const upcomingEventsCardContainer = document.getElementById('upcoming-events-car
 let upcomingEvents = allEvents.filter(event => event.date > currentDate);
 let upcomingEventsCategories = [];
 let upcomingEventsCheckboxFilter = [];
+let upcomingEventsFilterResult = [];
 
 // Dynamic Cards
 
@@ -35,9 +36,7 @@ createUpcomingEventCard(upcomingEvents);
 // Categories
 
 for (const event of upcomingEvents) {
-  if (upcomingEventsCategories.indexOf(event.category) == -1) {
-      upcomingEventsCategories.push(event.category)
-  }
+  if (upcomingEventsCategories.indexOf(event.category) == -1) upcomingEventsCategories.push(event.category);
 }
 
 upcomingEventsCategories.sort();
@@ -52,9 +51,10 @@ upcomingEventsCategories.forEach((category) => {upcomingEventsFilterContainer.in
 
 for (const checkbox of upcomingEventsCheckboxes) {
   checkbox.addEventListener('change', () => {
+    if (upcomingEventsSearchBar.value != '') upcomingEventsSearchBar.value = '';
     if (checkbox.checked) upcomingEventsCheckboxFilter.push(checkbox.id);
     else upcomingEventsCheckboxFilter = upcomingEventsCheckboxFilter.filter((category) => category !== checkbox.id);
-    const upcomingEventsFilterResult = upcomingEvents.filter((event) => upcomingEventsCheckboxFilter.includes(event.category));
+    upcomingEventsFilterResult = upcomingEvents.filter((event) => upcomingEventsCheckboxFilter.includes(event.category));
     if (upcomingEventsFilterResult.length != 0) createUpcomingEventCard(upcomingEventsFilterResult);
     else createUpcomingEventCard(upcomingEvents);
   });
@@ -62,11 +62,16 @@ for (const checkbox of upcomingEventsCheckboxes) {
 
 // Search Bar
 
-upcomingEventsSearchBar.addEventListener('change', () => {
-  const upcomingEventsSearchResult = upcomingEvents.filter((event) =>
+function upcomingEventsSearch(eventArray) {
+  const upcomingEventsSearchResult = eventArray.filter((event) =>
    event.name.toLowerCase().includes(upcomingEventsSearchBar.value.toLowerCase()) ||
-   event.description.toLowerCase().includes(upcomingEventsSearchBar.value.toLowerCase()))
+   event.description.toLowerCase().includes(upcomingEventsSearchBar.value.toLowerCase()));
   createUpcomingEventCard(upcomingEventsSearchResult);
   if (upcomingEventsSearchResult.length == 0) upcomingEventsCardContainer.innerHTML =
-    `<p class="no-results-message">There are no results that match your search</p>`;
+    `<p class="no-results-message">There are no results that match your search</p>`  
+}
+
+upcomingEventsSearchBar.addEventListener('change', () => {
+  if (upcomingEventsFilterResult.length == 0) upcomingEventsSearch(upcomingEvents);
+  else upcomingEventsSearch(upcomingEventsFilterResult);
 });
