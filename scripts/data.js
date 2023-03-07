@@ -173,12 +173,14 @@ var data = {
 }
 
 const filterContainer = document.getElementById('filter-container');
+const checkboxes = document.getElementsByClassName('home-check-input');
 const searchBar = document.getElementById('search-bar');
 const cardContainer = document.getElementById('card-container');
 
 let currentDate = data.currentDate;
 let allEvents = Object.values(data.events);
 let categories = [];
+let checkboxFilter = [];
 
 // Dynamic Cards
 
@@ -206,25 +208,35 @@ createCard(allEvents);
 // Categories
 
 for (const event of allEvents) {
-  if (categories.indexOf(event.category) == -1) {
-      categories.push(event.category)
-  }
+  if (categories.indexOf(event.category) == -1) categories.push(event.category);
 }
 
 categories.sort();
 categories.forEach((category) => {filterContainer.innerHTML +=
   `<fieldset class="px-2">
-    <input class="form-check-input" type="checkbox" value="${category}" id="${category}">
+    <input class="form-check-input home-check-input" type="checkbox" value="${category}" id="${category}">
     <label class="form-check-label px-1" for="${category}">${category}</label>
   </fieldset>`
-});
+});  
+
+// Checkbox Filter
+
+for (const checkbox of checkboxes) {
+  checkbox.addEventListener('change', () => {
+    if (checkbox.checked) checkboxFilter.push(checkbox.id);
+    else checkboxFilter = checkboxFilter.filter((category) => category !== checkbox.id);
+    const filterResult = allEvents.filter((event) => checkboxFilter.includes(event.category));
+    if (filterResult.length != 0) createCard(filterResult);
+    else createCard(allEvents);
+  });
+}
 
 // Search Bar
 
 searchBar.addEventListener('change', () => {
   const searchResult = allEvents.filter((event) =>
    event.name.toLowerCase().includes(searchBar.value.toLowerCase()) ||
-   event.description.toLowerCase().includes(searchBar.value.toLowerCase()))
+   event.description.toLowerCase().includes(searchBar.value.toLowerCase()));
   createCard(searchResult);
   if (searchResult.length == 0) cardContainer.innerHTML =
     `<p class="no-results-message">There are no results that match your search</p>`;

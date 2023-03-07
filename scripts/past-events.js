@@ -1,9 +1,11 @@
 const pastEventsFilterContainer = document.getElementById('past-events-filter-container');
+const pastEventsCheckboxes = document.getElementsByClassName('past-events-check-input');
 const pastEventsSearchBar = document.getElementById('past-events-search-bar');
 const pastEventsCardContainer = document.getElementById('past-events-card-container');
 
 let pastEvents = allEvents.filter(event => event.date < currentDate);
 let pastEventsCategories = [];
+let pastEventsCheckboxFilter = [];
 
 // Dynamic Cards
 
@@ -42,10 +44,22 @@ for (const event of pastEvents) {
 pastEventsCategories.sort();
 pastEventsCategories.forEach((category) => {pastEventsFilterContainer.innerHTML +=
   `<fieldset class="px-2">
-  <input class="form-check-input" type="checkbox" value="" id="${category}">
+  <input class="form-check-input past-events-check-input" type="checkbox" value="" id="${category}">
   <label class="form-check-label px-1" for="${category}">${category}</label>
   </fieldset>`
 })
+
+// Checkbox Filter
+
+for (const checkbox of pastEventsCheckboxes) {
+  checkbox.addEventListener('change', () => {
+    if (checkbox.checked) pastEventsCheckboxFilter.push(checkbox.id);
+    else pastEventsCheckboxFilter = pastEventsCheckboxFilter.filter((category) => category !== checkbox.id);
+    const pastEventsFilterResult = pastEvents.filter((event) => pastEventsCheckboxFilter.includes(event.category));
+    if (pastEventsFilterResult.length != 0) createPastEventCard(pastEventsFilterResult);
+    else createPastEventCard(pastEvents);
+  });
+}
 
 // Search Bar
 

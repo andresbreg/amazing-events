@@ -1,9 +1,11 @@
 const upcomingEventsFilterContainer = document.getElementById('upcoming-events-filter-container');
+const upcomingEventsCheckboxes = document.getElementsByClassName('upcoming-events-check-input');
 const upcomingEventsSearchBar = document.getElementById('upcoming-events-search-bar');
 const upcomingEventsCardContainer = document.getElementById('upcoming-events-card-container');
 
 let upcomingEvents = allEvents.filter(event => event.date > currentDate);
 let upcomingEventsCategories = [];
+let upcomingEventsCheckboxFilter = [];
 
 // Dynamic Cards
 
@@ -41,10 +43,22 @@ for (const event of upcomingEvents) {
 upcomingEventsCategories.sort();
 upcomingEventsCategories.forEach((category) => {upcomingEventsFilterContainer.innerHTML +=
   `<fieldset class="px-2">
-  <input class="form-check-input" type="checkbox" value="" id="${category}">
+  <input class="form-check-input upcoming-events-check-input" type="checkbox" value="${category}" id="${category}">
   <label class="form-check-label px-1" for="${category}">${category}</label>
   </fieldset>`
 });
+
+// Checkbox Filter
+
+for (const checkbox of upcomingEventsCheckboxes) {
+  checkbox.addEventListener('change', () => {
+    if (checkbox.checked) upcomingEventsCheckboxFilter.push(checkbox.id);
+    else upcomingEventsCheckboxFilter = upcomingEventsCheckboxFilter.filter((category) => category !== checkbox.id);
+    const upcomingEventsFilterResult = upcomingEvents.filter((event) => upcomingEventsCheckboxFilter.includes(event.category));
+    if (upcomingEventsFilterResult.length != 0) createUpcomingEventCard(upcomingEventsFilterResult);
+    else createUpcomingEventCard(upcomingEvents);
+  });
+}
 
 // Search Bar
 
