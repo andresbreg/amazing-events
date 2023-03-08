@@ -38,9 +38,9 @@ for (const event of pastEvents) {
 
 pastEventsCategories.sort();
 pastEventsCategories.forEach((category) => {pastEventsFilterContainer.innerHTML +=
-  `<fieldset class="px-2">
-  <input class="form-check-input past-events-check-input" type="checkbox" value="" id="${category}">
-  <label class="form-check-label px-1" for="${category}">${category}</label>
+  `<fieldset class="mx-3 mx-md-4">
+    <input class="form-check-input past-events-check-input" type="checkbox" value="" id="${category}">
+    <label class="form-check-label px-1" for="${category}">${category}</label>
   </fieldset>`
 });
 

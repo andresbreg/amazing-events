@@ -37,9 +37,9 @@ for (const event of upcomingEvents) {
 
 upcomingEventsCategories.sort();
 upcomingEventsCategories.forEach((category) => {upcomingEventsFilterContainer.innerHTML +=
-  `<fieldset class="px-2">
-  <input class="form-check-input upcoming-events-check-input" type="checkbox" value="${category}" id="${category}">
-  <label class="form-check-label px-1" for="${category}">${category}</label>
+  `<fieldset class="mx-3 mx-md-4">
+    <input class="form-check-input upcoming-events-check-input" type="checkbox" value="${category}" id="${category}">
+    <label class="form-check-label px-1" for="${category}">${category}</label>
   </fieldset>`
 });
 

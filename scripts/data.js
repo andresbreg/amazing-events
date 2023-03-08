@@ -210,7 +210,7 @@ for (const event of allEvents) {
 
 categories.sort();
 categories.forEach((category) => {filterContainer.innerHTML +=
-  `<fieldset class="px-2">
+  `<fieldset class=" mx-3 mx-md-4">
     <input class="form-check-input home-check-input" type="checkbox" value="${category}" id="${category}">
     <label class="form-check-label px-1" for="${category}">${category}</label>
   </fieldset>`
