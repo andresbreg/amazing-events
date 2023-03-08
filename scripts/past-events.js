@@ -22,11 +22,7 @@ function createPastEventCard(eventArray) {
         <p class="fw-semibold">${event.category}</p>
         <h5 class="card-title">${event.name}</h5>
         <p class="card-text">${event.description}</p>
-        <div class="d-flex justify-content-between">
-          <p class="fst-italic">${event.date}</p>
-          <p>$${event.price}</p>
-        </div>
-        <a href="details.html" class="btn details-btn">Details</a>
+        <a href="details.html?id=${event._id}" class="btn details-btn">Details</a>
       </div>
     </div>`
   });
