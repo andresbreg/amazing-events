@@ -3,18 +3,39 @@ const upcomingEventsCheckboxes = document.getElementsByClassName('upcoming-event
 const upcomingEventsSearchBar = document.getElementById('upcoming-events-search-bar');
 const upcomingEventsCardContainer = document.getElementById('upcoming-events-card-container');
 
-let upcomingEvents = allEvents.filter(event => event.date > currentDate);
+let currentDate = '';
+let allEvents = [];
+let upcomingEvents = [];
 let upcomingEventsCategories = [];
 let upcomingEventsCheckboxFilter = [];
 let upcomingEventsFilterResult = [];
+let upcomingEventsSearchResult = [];
+
+// Data Fetch
+
+function upcomingEventsDataFetch() {
+  fetch('https://mindhub-xj03.onrender.com/api/amazing')
+    .then(response => response.json())
+    .then(apiData => {
+      currentDate = apiData.currentDate;
+      allEvents = apiData.events;        
+      upcomingEvents = allEvents.filter(event => event.date > currentDate);
+      getUpcomingEventsCategories(upcomingEvents);
+      showUpcomingEventsCategories(upcomingEventsCategories);
+      createUpcomingEventsCards(upcomingEvents);
+      filterUpcomingEventsCategories();
+    })
+    .catch(error => console.log(error.message));    
+}
+
+upcomingEventsDataFetch();
 
 // Dynamic Cards
 
-upcomingEvents.sort((x,y) => x.date.localeCompare(y.date));
-
-function createUpcomingEventCard(eventArray) {
-  upcomingEventsCardContainer.innerHTML = '';
-  eventArray.forEach((event) => {upcomingEventsCardContainer.innerHTML +=
+function createUpcomingEventsCards(eventArray) {
+  cards = '';  
+  eventArray.sort((x,y) => x.date.localeCompare(y.date));
+  eventArray.forEach(event => {cards +=
     `<div class="card col-10 col-sm-5 col-xl-3">
       <img src="${event.image}" alt="Event cover" class="card-image">
       <div class="card-body d-flex flex-column justify-content-between">
@@ -25,44 +46,62 @@ function createUpcomingEventCard(eventArray) {
       </div>
     </div>`
   });
+  upcomingEventsCardContainer.innerHTML = cards;
 }
-
-createUpcomingEventCard(upcomingEvents);
 
 // Categories
 
-for (const event of upcomingEvents) {
-  if (upcomingEventsCategories.indexOf(event.category) == -1) upcomingEventsCategories.push(event.category);
+function getUpcomingEventsCategories(eventArray) {
+  for (const event of eventArray) {
+    if (upcomingEventsCategories.indexOf(event.category) == -1) upcomingEventsCategories.push(event.category);
+  }  
 }
 
-upcomingEventsCategories.sort();
-upcomingEventsCategories.forEach((category) => {upcomingEventsFilterContainer.innerHTML +=
-  `<fieldset class="mx-3 mx-md-4">
-    <input class="form-check-input upcoming-events-check-input" type="checkbox" value="${category}" id="${category}">
-    <label class="form-check-label px-1" for="${category}">${category}</label>
-  </fieldset>`
-});
+function showUpcomingEventsCategories(categoryArray) {
+  categoriesFilter = '';
+  categoryArray.sort();
+  categoryArray.forEach(category => {categoriesFilter +=
+    `<fieldset class="mx-3 mx-md-4">
+      <input class="form-check-input upcoming-events-check-input" type="checkbox" value="${category}" id="${category}">
+      <label class="form-check-label px-1" for="${category}">${category}</label>
+    </fieldset>`
+  });
+  upcomingEventsFilterContainer.innerHTML = categoriesFilter;
+}
 
 // Checkbox Filter
 
-for (const checkbox of upcomingEventsCheckboxes) {
-  checkbox.addEventListener('change', () => {
-    if (upcomingEventsSearchBar.value != '') upcomingEventsSearchBar.value = '';
-    if (checkbox.checked) upcomingEventsCheckboxFilter.push(checkbox.id);
-    else upcomingEventsCheckboxFilter = upcomingEventsCheckboxFilter.filter((category) => category !== checkbox.id);
-    upcomingEventsFilterResult = upcomingEvents.filter((event) => upcomingEventsCheckboxFilter.includes(event.category));
-    if (upcomingEventsFilterResult.length != 0) createUpcomingEventCard(upcomingEventsFilterResult);
-    else createUpcomingEventCard(upcomingEvents);
-  });
+function filterUpcomingEventsCategories() {
+  for (const checkbox of upcomingEventsCheckboxes) {
+    checkbox.addEventListener('change', () => {
+      if (checkbox.checked) upcomingEventsCheckboxFilter.push(checkbox.id);
+      else upcomingEventsCheckboxFilter = upcomingEventsCheckboxFilter.filter(category => category != checkbox.id);
+      if (upcomingEventsSearchResult.length == 0) {
+        upcomingEventsFilterResult = upcomingEvents.filter(event => upcomingEventsCheckboxFilter.includes(event.category));
+      }
+      else if (upcomingEventsFilterResult != 0) {
+        upcomingEventsFilterResult = upcomingEvents.filter(event => upcomingEventsCheckboxFilter.includes(event.category));
+        upcomingEventsSearchResult = [];
+        upcomingEventsSearchBar.value = '';
+      }
+      else {
+        upcomingEventsFilterResult = upcomingEventsSearchResult.filter(event => upcomingEventsCheckboxFilter.includes(event.category));
+        upcomingEventsSearchResult = [];
+        upcomingEventsSearchBar.value = '';
+      }
+      if (upcomingEventsFilterResult.length != 0) createUpcomingEventsCards(upcomingEventsFilterResult);
+      else createUpcomingEventsCards(upcomingEvents);
+    });
+  }  
 }
 
 // Search Bar
 
 function upcomingEventsSearch(eventArray) {
-  const upcomingEventsSearchResult = eventArray.filter((event) =>
+  upcomingEventsSearchResult = eventArray.filter(event =>
    event.name.toLowerCase().includes(upcomingEventsSearchBar.value.toLowerCase()) ||
    event.description.toLowerCase().includes(upcomingEventsSearchBar.value.toLowerCase()));
-  createUpcomingEventCard(upcomingEventsSearchResult);
+   createUpcomingEventsCards(upcomingEventsSearchResult);
   if (upcomingEventsSearchResult.length == 0) upcomingEventsCardContainer.innerHTML =
     `<p class="no-results-message">There are no results that match your search</p>`  
 }

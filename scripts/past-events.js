@@ -3,19 +3,40 @@ const pastEventsCheckboxes = document.getElementsByClassName('past-events-check-
 const pastEventsSearchBar = document.getElementById('past-events-search-bar');
 const pastEventsCardContainer = document.getElementById('past-events-card-container');
 
-let pastEvents = allEvents.filter(event => event.date < currentDate);
+let currentDate = '';
+let allEvents = [];
+let pastEvents = [];
 let pastEventsCategories = [];
 let pastEventsCheckboxFilter = [];
 let pastEventsFilterResult = [];
+let pastEventsSearchResult = [];
+
+// Data Fetch
+
+function pastEventsDataFetch() {
+  fetch('https://mindhub-xj03.onrender.com/api/amazing')
+    .then(response => response.json())
+    .then(apiData => {
+      currentDate = apiData.currentDate;
+      allEvents = apiData.events;        
+      pastEvents = allEvents.filter(event => event.date < currentDate);
+      getPastEventsCategories(pastEvents);
+      showPastEventsCategories(pastEventsCategories);
+      createPastEventsCards(pastEvents);
+      filterPastEventsCategories();
+    })
+    .catch(error => console.log(error.message));    
+}
+
+pastEventsDataFetch();
 
 // Dynamic Cards
 
-pastEvents.sort((x,y) => x.date.localeCompare(y.date));
-pastEvents.reverse();
-
-function createPastEventCard(eventArray) {
-  pastEventsCardContainer.innerHTML = '';
-  eventArray.forEach((event) => {pastEventsCardContainer.innerHTML +=
+function createPastEventsCards(eventArray) {
+  cards = '';
+  eventArray.sort((x,y) => x.date.localeCompare(y.date));
+  eventArray.reverse();
+  eventArray.forEach(event => {cards +=
     `<div class="card col-10 col-sm-5 col-xl-3">
       <img src="${event.image}" alt="Event cover" class="card-image">
       <div class="card-body d-flex flex-column justify-content-between">
@@ -26,44 +47,62 @@ function createPastEventCard(eventArray) {
       </div>
     </div>`
   });
+  pastEventsCardContainer.innerHTML = cards;
 }
-
-createPastEventCard(pastEvents);
 
 // Categories
 
-for (const event of pastEvents) {
-  if (pastEventsCategories.indexOf(event.category) == -1) pastEventsCategories.push(event.category);
+function getPastEventsCategories(eventArray) {
+  for (const event of eventArray) {
+    if (pastEventsCategories.indexOf(event.category) == -1) pastEventsCategories.push(event.category);
+  }
 }
 
-pastEventsCategories.sort();
-pastEventsCategories.forEach((category) => {pastEventsFilterContainer.innerHTML +=
-  `<fieldset class="mx-3 mx-md-4">
-    <input class="form-check-input past-events-check-input" type="checkbox" value="" id="${category}">
-    <label class="form-check-label px-1" for="${category}">${category}</label>
-  </fieldset>`
-});
+function showPastEventsCategories(categoryArray) {
+  categoriesFilter = '';
+  categoryArray.sort();
+  categoryArray.forEach(category => {categoriesFilter +=
+    `<fieldset class="mx-3 mx-md-4">
+      <input class="form-check-input past-events-check-input" type="checkbox" value="" id="${category}">
+      <label class="form-check-label px-1" for="${category}">${category}</label>
+    </fieldset>`
+  });
+  pastEventsFilterContainer.innerHTML = categoriesFilter;
+}
 
 // Checkbox Filter
 
-for (const checkbox of pastEventsCheckboxes) {
-  checkbox.addEventListener('change', () => {
-    if (pastEventsSearchBar.value != '') pastEventsSearchBar.value = '';
-    if (checkbox.checked) pastEventsCheckboxFilter.push(checkbox.id);
-    else pastEventsCheckboxFilter = pastEventsCheckboxFilter.filter((category) => category !== checkbox.id);
-    const pastEventsFilterResult = pastEvents.filter((event) => pastEventsCheckboxFilter.includes(event.category));
-    if (pastEventsFilterResult.length != 0) createPastEventCard(pastEventsFilterResult);
-    else createPastEventCard(pastEvents);
-  });
+function filterPastEventsCategories() {
+  for (const checkbox of pastEventsCheckboxes) {
+    checkbox.addEventListener('change', () => {
+      if (checkbox.checked) pastEventsCheckboxFilter.push(checkbox.id);
+      else pastEventsCheckboxFilter = pastEventsCheckboxFilter.filter(category => category != checkbox.id);
+      if (pastEventsSearchResult.length == 0) {
+        pastEventsFilterResult = pastEvents.filter(event => pastEventsCheckboxFilter.includes(event.category));
+      }
+      else if (pastEventsFilterResult != 0) {
+        pastEventsFilterResult = pastEvents.filter(event => pastEventsCheckboxFilter.includes(event.category));
+        pastEventsSearchResult = [];
+        pastEventsSearchBar.value = '';
+      }
+      else {
+        pastEventsFilterResult = pastEventsSearchResult.filter(event => pastEventsCheckboxFilter.includes(event.category));
+        pastEventsSearchResult = [];
+        pastEventsSearchBar.value = '';
+      }
+      if (pastEventsFilterResult.length != 0) createPastEventsCards(pastEventsFilterResult);
+      else createPastEventsCards(pastEvents);
+    });
+  }
 }
 
 // Search Bar
 
 function pastEventsSearch(eventArray) {
-  const pastEventsSearchResult = eventArray.filter((event) =>
+  pastEventsSearchResult = eventArray.filter(event =>
    event.name.toLowerCase().includes(pastEventsSearchBar.value.toLowerCase()) ||
    event.description.toLowerCase().includes(pastEventsSearchBar.value.toLowerCase()));
-  createPastEventCard(pastEventsSearchResult);
+  createPastEventsCards(pastEventsSearchResult);
   if (pastEventsSearchResult.length == 0) pastEventsCardContainer.innerHTML =
     `<p class="no-results-message">There are no results that match your search</p>`
 }
