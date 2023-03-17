@@ -15,7 +15,7 @@
     <!-- Nav Bar -->
 
     <nav class="navbar navbar-expand-md p-3 px-md-5">
-      <a class="navbar-brand mx-3" href="#">
+      <a class="navbar-brand mx-3" href="index.html">
         <img src="./assets/Logo_Amazing_Events.png" alt="Amazing Events Logo" width="120">
       </a>    
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#options">
@@ -60,94 +60,54 @@
       </a>
     </div>
   </header>
-  <main class="d-flex flex-column justify-content-evenly">    
+  <main class="d-flex flex-column justify-content-evenly">
 
-    <!-- Table -->
-
-    <table class="mx-3 my-3">
+    <!-- Table - Events statistics -->
+    
+    <table class="mx-4 mt-4">
       <thead>
-          <tr>
-              <th colspan="3" class="text-center bg-body-secondary">Events statistics</th>
-          </tr>
+        <tr>
+            <th colspan="3" class="text-center bg-body-secondary">Events Statistics (only past events)</th>
+        </tr>          
+        <tr class="table-group-divider text-center bg-light">
+          <th class="fw-semibold">Highest attendance (%)</th>
+          <th class="fw-semibold">Lowest attendance (%)</th>
+          <th class="fw-semibold">Larger capacity</th>
+        </tr>
       </thead>
-      <tbody>
-          <tr class="table-group-divider text-center">
-              <td class="fw-semibold">Highest attendance (%)</td>
-              <td class="fw-semibold">Lowest attendance (%)</td>
-              <td class="fw-semibold">Larger capacity</td>
-          </tr>
-          <tr>
-              <td></td>
-              <td></td>
-              <td></td>
-          </tr>
-          <tr class="table-group-divider">
-              <td colspan="3" class="text-center bg-body-secondary"><b>Upcoming events statistics by category</b></td>
-          </tr>
-          <tr class="table-group-divider text-center">
-              <td class="fw-semibold">Categories</td>
-              <td class="fw-semibold">Revenues</td>
-              <td class="fw-semibold">Attendance (%)</td>
-          </tr>
-          <tr>
-              <td></td>
-              <td></td>
-              <td></td>
-          </tr>
-          <tr>
-              <td></td>
-              <td></td>
-              <td></td>
-          </tr>
-          <tr>
-              <td></td>
-              <td></td>
-              <td></td>
-          </tr>
-          <tr>
-              <td></td>
-              <td></td>
-              <td></td>
-          </tr>
-          <tr>
-              <td></td>
-              <td></td>
-              <td></td>
-          </tr>
-          <tr class="table-group-divider">
-              <td colspan="3" class="text-center bg-body-secondary"><b>Past events statistics by category</b></td>
-          </tr>
-          <tr class="table-group-divider text-center">
-              <td class="fw-semibold">Categories</td>
-              <td class="fw-semibold">Revenues</td>
-              <td class="fw-semibold">Attendance (%)</td>
-          </tr>
-          <tr>
-              <td></td>
-              <td></td>
-              <td></td>
-          </tr>
-          <tr>
-              <td></td>
-              <td></td>
-              <td></td>
-          </tr>
-          <tr>
-              <td></td>
-              <td></td>
-              <td></td>
-          </tr>
-          <tr>
-              <td></td>
-              <td></td>
-              <td></td>
-          </tr>
-          <tr>
-              <td></td>
-              <td></td>
-              <td></td>
-          </tr>
-      </tbody>
+      <tbody id="events-stats" class="table-group-divider"></tbody>          
+    </table>
+
+    <!-- Table - Upcoming events statistics by category -->
+
+    <table class="mx-4 border-top-0 border-bottom-0">
+      <thead>
+        <tr>
+          <th colspan="3" class="text-center bg-body-secondary">Upcoming Events Statistics by Category (estimate)</th>
+        </tr>
+        <tr class="table-group-divider text-center bg-light">
+          <th class="fw-semibold">Category</th>
+          <th class="fw-semibold">Revenues</th>
+          <th class="fw-semibold">Attendance (%)</th>
+        </tr>
+      </thead>
+      <tbody id="upcoming-events-stats" class="table-group-divider"></tbody>      
+    </table>
+
+    <!-- Table - Past events statistics by category -->
+
+    <table class="mx-4 mb-4">
+      <thead>
+        <tr>
+          <th colspan="3" class="text-center bg-body-secondary">Past Events Statistics by Category</th>
+        </tr>
+        <tr class="table-group-divider text-center bg-light">
+          <th class="fw-semibold">Category</th>
+          <th class="fw-semibold">Revenues</th>
+          <th class="fw-semibold">Attendance (%)</th>
+        </tr>
+      </thead>
+      <tbody id="past-events-stats" class="table-group-divider"></tbody>      
     </table> 
   </main>
 
@@ -167,6 +127,7 @@
     </ul>
       <span class="text-white me-3">&copy; 2023</span>
   </footer>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>    
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+  <script src="./scripts/stats.js"></script>  
 </body>
 </html>

@@ -106,10 +106,9 @@ table {
     border: 2px solid black;
 }
 
-td {
+th, td {
     border-collapse: collapse;
     border: 1px solid black;
-    height: 1.25rem;
     padding: .25rem;
 }
 
